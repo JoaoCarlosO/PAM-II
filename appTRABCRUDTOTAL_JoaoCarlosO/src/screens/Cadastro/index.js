@@ -9,46 +9,52 @@ import {
   Image,
 } from "react-native";
 import { useNavigation } from "@react-navigation/core";
-import { AntDesign, Ionicons } from "@expo/vector-icons";
+import { Ionicons } from "@expo/vector-icons";
 import { styles } from "./style";
-import { showMessage, hideMessage } from "react-native-flash-message";
-
+import { showMessage } from "react-native-flash-message";
 import api from "../../../services/api";
 
-const Cadastro = (FC = ({route}) => {
-    const { id } = route.params;
-  const navigation = (any = useNavigation());
-  const [cidade, setCidade] = useState("");
-  const [estado, setEstado] = useState("");
-  const [transporte, setTransporte] = useState("");
-  const [sucess, setSucess] = useState(false);
-  const [loading, setLoading] = useState(false);
+const Cadastro = ({ route }) => {
+  const { id } = route?.params || {};
+  const navigation = useNavigation();
+
+  const [palavra, setPalavra] = useState("");
+  const [descricao, setDescricao] = useState("");
+  const [categoria, setCategoria] = useState("");
+  const [video, setVideo] = useState("");
+  const [nivel, setNivel] = useState("");
 
   function limparCampos() {
-    setCidade("");
-    setEstado("");
-    setTransporte("");
+    setPalavra("");
+    setDescricao("");
+    setCategoria("");
+    setVideo("");
+    setNivel("");
   }
 
-  async function buscardados() {
-    const res = await api.get("appBD/buscarId.php?id=" + id);
-    limparCampos();
-    setCidade(res.data.cidade);
-    setEstado(res.data.estado);
-    setTransporte(res.data.transporte);
+  async function buscarDados() {
+    try {
+      const res = await api.get("appBD/buscarId.php?id=" + id);
+      limparCampos();
+      setPalavra(res.data.palavra);
+      setDescricao(res.data.descricao);
+      setCategoria(res.data.categoria);
+      setVideo(res.data.video);
+      setNivel(res.data.nivel_dificuldade);
+    } catch (error) {
+      Alert.alert("Erro", "Não foi possível buscar os dados.");
+    }
   }
 
   useEffect(() => {
-    if (id) {
-      buscardados();
-    }
+    if (id) buscarDados();
   }, [id]);
 
-  async function editar() {
-    if (cidade == "" || estado == "" || transporte == "") {
+  async function salvarOuEditar() {
+    if (!palavra || !descricao || !categoria) {
       showMessage({
-        message: "Erro ao Editar",
-        description: "Preencha os Campos Obrigatórios!",
+        message: id ? "Erro ao Editar" : "Erro ao Salvar",
+        description: "Preencha os campos obrigatórios!",
         type: "warning",
       });
       return;
@@ -56,162 +62,107 @@ const Cadastro = (FC = ({route}) => {
 
     try {
       const obj = {
-        id: id,
-        cidade: cidade,
-        estado: estado,
-        transporte: transporte,
+        ...(id && { id }),
+        palavra,
+        descricao,
+        categoria,
+        video,
+        nivel_dificuldade: nivel,
       };
 
-      const res = await api.post("appBD/editar.php", obj);
+      const endpoint = id ? "appBD/editar.php" : "appBD/salvar.php";
+      const res = await api.post(endpoint, obj);
 
       if (res.data.sucesso === false) {
         showMessage({
-          message: "Erro ao Editar",
+          message: id ? "Erro ao Editar" : "Erro ao Salvar",
           description: res.data.mensagem,
           type: "warning",
-          duration: 3000,
         });
         return;
       }
 
-      setSucess(true);
       showMessage({
-        message: "Registro alterado com Sucesso",
-        description: "Registro Alterado",
+        message: id ? "Registro atualizado com sucesso" : "Registro salvo com sucesso",
         type: "success",
-        duration: 800,
       });
       limparCampos();
     } catch (error) {
-      Alert.alert("Ops", "Alguma coisa deu errado, tente novamente.");
-      setSucess(false);
-    }
-  }
-
-  async function saveData() {
-    if (cidade == "" || estado == "" || transporte == "") {
-      showMessage({
-        message: "Erro ao Salvar",
-        description: "Preencha os Campos Obrigatórios!",
-        type: "warning",
-      });
-      return;
-    }
-
-    try {
-      const obj = {
-        cidade: cidade,
-        estado: estado,
-        transporte: transporte,
-      };
-
-      const res = await api.post("appBD/salvar.php", obj);
-
-      if (res.data.sucesso === false) {
-        showMessage({
-          message: "Erro ao Salvar",
-          description: res.data.mensagem,
-          type: "warning",
-          duration: 3000,
-        });
-        limparCampos();
-        return;
-      }
-
-      setSucess(true);
-      showMessage({
-        message: "Salvo com Sucesso",
-        description: "Registro Salvo",
-        type: "success",
-        duration: 800,
-      });
-    } catch (error) {
-      Alert.alert("Ops", "Alguma coisa deu errado, tente novamente.");
-      setSucess(false);
+      Alert.alert("Erro", "Não foi possível processar a solicitação.");
     }
   }
 
   return (
-    <View style={{ flex: 1, marginTop: 0, backgroundColor: "#0f4571" }}>
+    <View style={{ flex: 1, backgroundColor: "#0f4571" }}>
       <View style={styles.Header}>
         <Image
           style={styles.logo}
-          source={require("../../../assets/logo2.png")}
+          source={require("../../../assets/icon.png")}
         />
-        <TouchableOpacity onPress={() => navigation.navigate("Home")}>
-          <Ionicons
-            style={{ marginLeft: 5, marginRight: 5 }}
-            name="caret-back-outline"
-            size={35}
-            color="#FFF"
-          ></Ionicons>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <Ionicons name="caret-back-outline" size={35} color="#FFF" />
         </TouchableOpacity>
       </View>
 
       <View style={styles.Title}>
-        <Ionicons name="airplane-outline" size={35} color="#ffffff" />
-        <Text style={styles.TitleText}>Turismo</Text>
+        <Ionicons name="hand-left-outline" size={35} color="#ffffff" />
+        <Text style={styles.TitleText}>Cadastro de Sinais</Text>
       </View>
 
-      <ScrollView>
-        <View>
-          <Text style={styles.TitleInputs}>Cidade:</Text>
+      <ScrollView keyboardShouldPersistTaps="handled">
+        <Text style={styles.TitleInputs}>Palavra:</Text>
+        <TextInput
+          placeholder="Ex: Comer"
+          value={palavra}
+          onChangeText={setPalavra}
+          style={styles.TextInput}
+        />
 
-          <TextInput
-            placeholder="Digite a cidade de destino"
-            onChangeText={(text) => setCidade(text)}
-            value={cidade}
-            style={styles.TextInput}
+        <Text style={styles.TitleInputs}>Descrição:</Text>
+        <TextInput
+          placeholder="Explique o sinal"
+          value={descricao}
+          onChangeText={setDescricao}
+          style={styles.TextInput}
+        />
+
+        <Text style={styles.TitleInputs}>Categoria:</Text>
+        <TextInput
+          placeholder="Ex: Ações, Alimentos..."
+          value={categoria}
+          onChangeText={setCategoria}
+          style={styles.TextInput}
+        />
+
+        <Text style={styles.TitleInputs}>Link do Vídeo:</Text>
+        <TextInput
+          placeholder="Cole o link do vídeo (YouTube ou outro)"
+          value={video}
+          onChangeText={setVideo}
+          style={styles.TextInput}
+        />
+
+        <Text style={styles.TitleInputs}>Nível de Dificuldade:</Text>
+        <TextInput
+          placeholder="Básico / Intermediário / Avançado"
+          value={nivel}
+          onChangeText={setNivel}
+          style={styles.TextInput}
+        />
+
+        <TouchableOpacity style={styles.Button} onPress={salvarOuEditar}>
+          <Ionicons
+            name={id ? "create-outline" : "save-outline"}
+            size={35}
+            color="#FFF"
           />
-        </View>
-
-        <View>
-          <Text style={styles.TitleInputs}>Estado:</Text>
-          <TextInput
-            placeholder="Digite o estado"
-            onChangeText={(text) => setEstado(text)}
-            value={estado}
-            style={styles.TextInput}
-          />
-        </View>
-
-        <View>
-          <Text style={styles.TitleInputs}>Transporte:</Text>
-
-          <TextInput
-            placeholder="Digite o meio de transporte"
-            onChangeText={(text) => setTransporte(text)}
-            value={transporte}
-            style={styles.TextInput}
-          />
-        </View>
-
-        <TouchableOpacity
-          style={styles.Button}
-          onPress={() => {
-            //setSucess(true);
-            saveData();
-            // setSucess(false);
-          }}
-        >
-          <Ionicons name="footsteps-outline" size={35} color="#FFF" />
-          <Text style={styles.ButtonText}>Salvar</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={styles.Button}
-          onPress={() => {
-            setSucess(true);
-            editar();
-            setSucess(false);
-          }}
-        >
-          <Ionicons name="footsteps-outline" size={35} color="#FFF" />
-          <Text style={styles.ButtonText}>Editar</Text>
+          <Text style={styles.ButtonText}>
+            {id ? "Editar" : "Salvar"}
+          </Text>
         </TouchableOpacity>
       </ScrollView>
     </View>
   );
-});
+};
 
 export default Cadastro;

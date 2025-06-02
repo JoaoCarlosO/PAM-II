@@ -1,107 +1,99 @@
 import { StyleSheet } from "react-native";
-import colors from "../../styles/colors";
-import fonts from "../../styles/fonts";
+
 
 export const styles = StyleSheet.create({
-    container:{
+    container: {
         flex: 1,
     },
 
-    header:{
-        
+    header: {
         backgroundColor: '#fafafa',
         shadowColor: 'rgba(0, 0, 0, 0.1)',
         shadowOpacity: 0.1,
         elevation: 6,
         shadowRadius: 15,
-        shadowOffset : { width: 1, height: 5},
+        shadowOffset: { width: 1, height: 5 },
         borderBottomRightRadius: 5,
         borderBottomLeftRadius: 5,
         height: 55,
     },
 
-    menu:{
+    menu: {
         position: 'absolute',
         left: 20,
         alignSelf: "center",
         top: 10,
     },
 
-    logo:{
+    logo: {
         width: 160,
         height: 40,
         alignSelf: "center",
         marginTop: 10,
     },
 
-    containerHeader:{
+    containerHeader: {
         flexDirection: 'row',
         justifyContent: "center",
         alignItems: "center",
     },
 
-    titleTasks:{
+    titleTasks: {
         flexDirection: 'row',
         marginBottom: 5,
         marginTop: 50,
     },
 
-    greeting:{
+    greeting: {
         fontSize: 18,
-        color: colors.heading,
-        fontFamily: fonts.text,
         alignSelf: "center",
     },
 
-    userName:{
+    userName: {
         fontSize: 22,
-        color: colors.heading,
         lineHeight: 40,
-        fontFamily: fonts.text,
     },
 
-    image:{
+    image: {
         width: 70,
         height: 70,
         borderRadius: 30
     },
 
-    lenghtText:{
-        color: colors.green, 
-        fontSize: 35, 
-        fontFamily: fonts.text,
+    lenghtText: {
+        fontSize: 35,
     },
 
-    tasks:{
+    tasks: {
         marginTop: 20,
         marginBottom: 50,
     },
 
-    taskBackground:{
+    taskBackground: {
         backgroundColor: '#333333'
     },
 
-    tasksText:{
+    tasksText: {
         marginTop: 10,
         fontSize: 20,
         marginBottom: 10,
         color: '#000'
     },
 
-    logout:{
+    logout: {
         position: 'absolute',
         right: 0,
-        color: colors.red,
+
         alignSelf: "center"
     },
 
-    containerBox:{
+    containerBox: {
         width: '85%',
         alignSelf: "center",
         marginBottom: 25,
     },
 
-    box:{
+    box: {
         backgroundColor: 'white',
         justifyContent: 'space-between',
         flexDirection: 'row',
@@ -113,20 +105,18 @@ export const styles = StyleSheet.create({
         shadowOpacity: 0.1,
         elevation: 5,
         shadowRadius: 15,
-        shadowOffset : { width: 1, height: 1},
-        
+        shadowOffset: { width: 1, height: 1 },
     },
 
-    rText:{
+    rText: {
         fontSize: 20,
         color: 'gray',
-        fontFamily: fonts.text,
     },
 
-    textFooter:{
+    textFooter: {
         borderTopColor: '#ccc',
-        paddingTop: 15, 
-        paddingBottom: 10, 
+        paddingTop: 15,
+        paddingBottom: 10,
         borderTopWidth: 1,
         color: '#FFF',
         backgroundColor: '#871003',
@@ -134,76 +124,70 @@ export const styles = StyleSheet.create({
         fontSize: 15,
         borderBottomLeftRadius: 15,
         borderBottomRightRadius: 15,
-        fontFamily: fonts.text,
     },
 
-    iconRegistered:{
+    iconRegistered: {
         justifyContent: 'center',
         alignSelf: 'center',
     },
 
-    textos:{
+    textos: {
         justifyContent: 'flex-end',
         alignItems: 'flex-end',
     },
 
-    circleProgressView:{
+    circleProgressView: {
         flexDirection: 'row',
         alignSelf: "center",
         marginTop: 20,
     },
 
-    textProgress:{
-        fontFamily: fonts.text,
+    textProgress: {
         fontSize: 16,
         color: 'gray',
     },
 
-    textProgressTitle:{
-        fontFamily: fonts.text,
+    textProgressTitle: {
         fontSize: 20,
         color: '#000',
     },
 
-    textProgressContainer:{
+    textProgressContainer: {
         alignSelf: "center",
         marginRight: 20,
     },
 
-    numberInside:{
-        fontFamily: fonts.text,
+    numberInside: {
         fontSize: 18,
         color: '#000',
         textDecorationLine: 'underline',
-
     },
 
-    boxContainer:{
+    boxContainer: {
         marginRight: 20,
         width: 200,
         marginLeft: 10,
     },
-    grid:{
+
+    grid: {
         marginTop: 8,
-        
-      },
-    
-      griditem:{
+    },
+
+    griditem: {
         padding: 11,
         borderBottomColor: "#dbdbdb",
         borderBottomWidth: StyleSheet.hairlineWidth
-      },
-    
-       gridbotaoEditar:{
-         position: 'absolute',
-         right:40,
-         color:'#5c7ef6',
-       },
-    
-       gridbotaoExcluir:{
-         position: 'absolute',
-         right:15,
-         color:'#cc1414',
-       },
-    
-})
+    },
+
+    gridbotaoEditar: {
+        position: 'absolute',
+        right: 40,
+        color: '#5c7ef6',
+    },
+
+    gridbotaoExcluir: {
+        position: 'absolute',
+        right: 15,
+        color: '#cc1414',
+    },
+});

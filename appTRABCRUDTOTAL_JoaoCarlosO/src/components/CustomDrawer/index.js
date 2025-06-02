@@ -37,7 +37,7 @@ const CustomDrawer= FC = () => {
 
     return (
         <View style={{ flex: 1, backgroundColor: '#fff' }}>
-            <Image style={styles.logo} source={require('../../../assets/logo2.png')} />
+            <Image style={styles.logo} source={require('../../../assets/icon.png')} />
 
             <View style={{ width: '90%', backgroundColor: '#c1c1c1', height: 0.5, alignSelf: 'center', marginBottom: 5, marginTop: 20 }}></View>
 

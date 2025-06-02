@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import fonts from "../../styles/fonts";
+
 
 export const styles = StyleSheet.create({
     container:{
@@ -25,7 +25,6 @@ export const styles = StyleSheet.create({
     },
 
     PagesText:{
-        fontFamily: fonts.text,
         fontSize: 18,
         color: '#000',
         alignSelf: "center",
@@ -33,7 +32,6 @@ export const styles = StyleSheet.create({
     },
 
     SairText:{
-        fontFamily: fonts.text,
         fontSize: 18,
         color: '#000',
         alignSelf: "center",

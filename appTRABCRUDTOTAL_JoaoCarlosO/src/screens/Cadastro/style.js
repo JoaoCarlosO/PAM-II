@@ -1,6 +1,5 @@
 import { StyleSheet } from "react-native";
 
-
 export const styles = StyleSheet.create({
     TextInput:{
         borderWidth: 0.5,
@@ -12,7 +11,6 @@ export const styles = StyleSheet.create({
         justifyContent: "center",
         marginHorizontal: 5,
         alignSelf: "center",
-        backgroundColor: '#009ddd',
         height: 45,
     },
 
@@ -26,7 +24,6 @@ export const styles = StyleSheet.create({
         justifyContent: "center",
         marginHorizontal: 5,
         alignSelf: "center",
-        backgroundColor: '#fff',
         height: 90,
     },
 
@@ -40,7 +37,6 @@ export const styles = StyleSheet.create({
         justifyContent: "center",
         marginHorizontal: 5,
         alignSelf: "center",
-        backgroundColor: '#fff',
         height: 45,
     },
 
@@ -54,48 +50,38 @@ export const styles = StyleSheet.create({
         justifyContent: "center",
         marginHorizontal: 5,
         alignSelf: "center",
-        backgroundColor: '#fff',
         height: 45,
     },
 
     Button:{
-        backgroundColor: '#386dbd',
         width: '60%',
         alignSelf: "center",
-        height: 50,
+        height: 60,
         justifyContent: "center",
         alignItems: "center",
         borderRadius: 10,
         marginTop: 20,
         marginBottom: 20,
-        height: 60
     },
 
     ButtonText:{
         fontSize: 20,
-        color: '#fff',
-      
     },
 
     TitleInputs:{
- 
         fontSize: 18,
-        color: "#ffffff",
         marginLeft: 35,
         marginTop: 15,
         marginBottom: 10,
     },
     
     TitleInputsRow:{
-    
         fontSize: 18,
-        color: "#000",
         marginLeft: 13,
         marginTop: 15,
     },
 
     BackButton:{
-     
         position: 'absolute',
         left: 0,
         alignItems: "center",
@@ -104,7 +90,6 @@ export const styles = StyleSheet.create({
     },
 
     BackButtonText:{
-     
         fontSize: 18,
         color: 'gray',
         marginLeft: 5,
@@ -128,7 +113,6 @@ export const styles = StyleSheet.create({
     TitleText:{
         marginTop: 10,
         fontSize: 20,
-        color: '#ffffff',
     },
 
     Header:{
@@ -144,7 +128,6 @@ export const styles = StyleSheet.create({
     },
 
     pickDate:{
-        backgroundColor: '#fff',
         padding: 10,
         width: '90%',
         borderRadius: 5,
@@ -157,19 +140,18 @@ export const styles = StyleSheet.create({
         flexDirection: 'row',
         height: 45,
         marginBottom: 5,
-      },
+    },
 
-      date:{
-
+    date:{
         fontSize: 15,
         color: '#000',
         alignSelf: "center",
-      },
+    },
 
-      logo:{
+    logo:{
         width: '100%',
         height: 130,
         alignSelf: "center",
         marginTop: 20,
     },
-})
+});
