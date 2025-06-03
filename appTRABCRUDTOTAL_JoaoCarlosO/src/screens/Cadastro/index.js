@@ -21,14 +21,12 @@ const Cadastro = ({ route }) => {
   const [palavra, setPalavra] = useState("");
   const [descricao, setDescricao] = useState("");
   const [categoria, setCategoria] = useState("");
-  const [video, setVideo] = useState("");
   const [nivel, setNivel] = useState("");
 
   function limparCampos() {
     setPalavra("");
     setDescricao("");
     setCategoria("");
-    setVideo("");
     setNivel("");
   }
 
@@ -39,7 +37,6 @@ const Cadastro = ({ route }) => {
       setPalavra(res.data.palavra);
       setDescricao(res.data.descricao);
       setCategoria(res.data.categoria);
-      setVideo(res.data.video);
       setNivel(res.data.nivel_dificuldade);
     } catch (error) {
       Alert.alert("Erro", "Não foi possível buscar os dados.");
@@ -66,7 +63,6 @@ const Cadastro = ({ route }) => {
         palavra,
         descricao,
         categoria,
-        video,
         nivel_dificuldade: nivel,
       };
 
@@ -131,14 +127,6 @@ const Cadastro = ({ route }) => {
           placeholder="Ex: Ações, Alimentos..."
           value={categoria}
           onChangeText={setCategoria}
-          style={styles.TextInput}
-        />
-
-        <Text style={styles.TitleInputs}>Link do Vídeo:</Text>
-        <TextInput
-          placeholder="Cole o link do vídeo (YouTube ou outro)"
-          value={video}
-          onChangeText={setVideo}
           style={styles.TextInput}
         />
 

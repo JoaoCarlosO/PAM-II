@@ -54,7 +54,7 @@ const CustomDrawer= FC = () => {
                     >
                         <MaterialIcons style={styles.iconRegistered} name="people-alt" size={30} color="gray" />
 
-                        <Text style={styles.PagesText}>Cadastrar</Text>
+                        <Text style={styles.PagesText}>Cadastrar Nova Palavra</Text>
                     </TouchableOpacity>
 
                    
