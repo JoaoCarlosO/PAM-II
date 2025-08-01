@@ -29,7 +29,7 @@ export default function Home() {
 
   async function totalDadosCadastrados() {
     try {
-      const res = await api.get(`appBD/listar-cards.php`);
+      const res = await api.get(`appTRABCRUDTOTALJOAOCARLOSO/listar-cards.php`);
       setTotal(res.data);
     } catch (error) {
       console.log("Erro ao buscar total: " + error);
@@ -38,7 +38,7 @@ export default function Home() {
 
   async function listarDados() {
     try {
-      const res = await api.get(`appBD/buscar.php`);
+      const res = await api.get("appTRABCRUDTOTALJOAOCARLOSO/buscar.php");
       setDados(res.data.result);
     } catch (error) {
       console.log("Erro ao listar dados: " + error);
@@ -50,7 +50,7 @@ export default function Home() {
 
   async function deleteItem(id) {
     try {
-      await api.get("appBD/excluir.php?id=" + id);
+      await api.get("appTRABCRUDTOTALJOAOCARLOSO/excluir.php?id=" + id);
       listarDados();
     } catch (error) {
       Alert.alert("Erro ao excluir", "Tente novamente mais tarde.");
@@ -69,13 +69,13 @@ export default function Home() {
   }
 
   useEffect(() => {
-    listarDados();
-    totalDadosCadastrados();
+   listarDados();
+  totalDadosCadastrados();
   }, [isFocused]);
 
   const onRefresh = () => {
     setRefreshing(true);
-    listarDados();
+   listarDados();
   };
 
   return (
@@ -142,8 +142,8 @@ export default function Home() {
           {dados.map((item) => (
             <View style={styles.griditem} key={item.id}>
               <Text style={{ color: "#585858" }}>
-                {item.id} - {item.palavra} ({item.categoria}) - Nível:{" "}
-                {item.nivel_dificuldade}
+                {item.id} - {item.palavra}
+      
               </Text>
 
               <TouchableOpacity
