@@ -48,7 +48,7 @@ export default function App() {
     formData.append('photo', { uri: image, name: filename, type });
 
     try {
-      const response = await fetch("http://10.239.0.221/imagem/upload.php", {
+      const response = await fetch("http://10.239.0.223/imagemAnimais/upload.php", {
         method: 'POST',
         body: formData,
         headers: {
