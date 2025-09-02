@@ -8,13 +8,15 @@ import {
   FlatList,
   KeyboardAvoidingView,
   Platform,
+  Image,
+  ImageBackground,
 } from "react-native";
 import axios from "axios";
 
 const API_URL = "http://10.239.0.221/chatConsultorio";
 
-const EMOJIS_POSSIVEIS = ["😎", "😊", "🤖", "🌸", "🐱", "🐶", "🦄"];
-const EMOJI_PADRAO = "🙂";
+const EMOJIS_POSSIVEIS = ["🦷", "😁", "🪥", "👩‍⚕️", "👨‍⚕️", "💬", "👍", "✨"];
+const EMOJI_PADRAO = "🦷";
 
 export default function App() {
   const [usuario, setUsuario] = useState("");
@@ -28,13 +30,10 @@ export default function App() {
     if (nomeConfirmado) {
       carregarMensagens();
       marcarComoLido();
-
-      // Corrigido: rodar as duas funções a cada 3s
       const interval = setInterval(() => {
         carregarMensagens();
         marcarComoLido();
       }, 3000);
-
       return () => clearInterval(interval);
     }
   }, [nomeConfirmado]);
@@ -42,7 +41,7 @@ export default function App() {
   const marcarComoLido = async () => {
     try {
       await axios.post(`${API_URL}/marcar_lido.php`, { usuario });
-      carregarMensagens(); // Atualiza mensagens após marcar como lido
+      carregarMensagens();
     } catch (err) {
       console.log("Erro ao marcar como lido", err);
     }
@@ -83,7 +82,6 @@ export default function App() {
     }
   };
 
-  // para formatar a hora
   const formatarHora = (dataHora) => {
     if (!dataHora) return "";
     const date = new Date(dataHora);
@@ -93,36 +91,48 @@ export default function App() {
     });
   };
 
-  // retornar o ícone de status
   const renderStatus = (status) => {
     if (status === "entregue") return "✅✅";
     if (status === "lido") return "✅👌";
     return "";
   };
 
-  // Tela de login
+  // ---------------- LOGIN ----------------
   if (!nomeConfirmado) {
     return (
-      <View style={styles.loginContainer}>
-        <Text style={styles.titulo}> Bem-vindo ao Consultório JC Dos Dentes</Text>
-        <Text style={styles.subtitulo}>Digite o nome do paciente</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Nome Completo"
-          value={usuario}
-          onChangeText={setUsuario}
-        />
-        <TouchableOpacity
-          style={styles.botaoEntrar}
-          onPress={() => usuario.trim() !== "" && setNomeConfirmado(true)}
-        >
-          <Text style={styles.botaoTexto}>Entrar</Text>
-        </TouchableOpacity>
-      </View>
+      <ImageBackground
+        source={require("./assets/fundo_login.jpg")}
+        style={styles.loginFundo}
+        resizeMode="cover"
+      >
+        <View style={styles.loginContainer}>
+          <Image
+            source={require("./assets/logo.jpg")}
+            style={styles.logo}
+            resizeMode="contain"
+          />
+          <Text style={styles.titulo}>Consultório JC dos Dentes</Text>
+          <Text style={styles.subtitulo}>Digite o nome do paciente</Text>
+
+          <TextInput
+            style={styles.input}
+            placeholder="Nome Completo"
+            value={usuario}
+            onChangeText={setUsuario}
+          />
+
+          <TouchableOpacity
+            style={styles.botaoEntrar}
+            onPress={() => usuario.trim() !== "" && setNomeConfirmado(true)}
+          >
+            <Text style={styles.botaoTexto}>Entrar</Text>
+          </TouchableOpacity>
+        </View>
+      </ImageBackground>
     );
   }
 
-  // Tela do Chat
+  // ---------------- CHAT ----------------
   return (
     <KeyboardAvoidingView
       style={styles.container}
@@ -130,46 +140,52 @@ export default function App() {
     >
       <Text style={styles.header}>💬 Chat do Consultório 💬</Text>
 
-      <FlatList
-        ref={flatListRef}
-        data={mensagens}
-        keyExtractor={(item) => item.id.toString()}
-        renderItem={({ item }) => {
-          const isMe = item.usuario === usuario;
-          return (
-            <View
-              style={[styles.msg, isMe ? styles.msgMinha : styles.msgOutro]}
-            >
-              {!isMe && (
-                <Text style={styles.usuario}>
-                  {userEmojis[item.usuario] || EMOJI_PADRAO} {item.usuario}
-                </Text>
-              )}
-              <Text style={styles.texto}>{item.mensagem}</Text>
-
-              <View style={styles.linhaHora}>
-                <Text style={styles.hora}>{formatarHora(item.data_hora)}</Text>
-                {isMe && (
-                  <Text
-                    style={[
-                      styles.status,
-                      item.status === "lido" && styles.statusLido,
-                    ]}
-                  >
-                    {renderStatus(item.status)}
+      <ImageBackground
+        source={require("./assets/fundo_chat.jpg")}
+        style={{ flex: 1 }}
+        resizeMode="cover"
+      >
+        <FlatList
+          ref={flatListRef}
+          data={mensagens}
+          keyExtractor={(item) => item.id.toString()}
+          renderItem={({ item }) => {
+            const isMe = item.usuario === usuario;
+            return (
+              <View
+                style={[styles.msg, isMe ? styles.msgMinha : styles.msgOutro]}
+              >
+                {!isMe && (
+                  <Text style={styles.usuario}>
+                    {userEmojis[item.usuario] || EMOJI_PADRAO} {item.usuario}
                   </Text>
                 )}
+                <Text style={styles.texto}>{item.mensagem}</Text>
+
+                <View style={styles.linhaHora}>
+                  <Text style={styles.hora}>{formatarHora(item.data_hora)}</Text>
+                  {isMe && (
+                    <Text
+                      style={[
+                        styles.status,
+                        item.status === "lido" && styles.statusLido,
+                      ]}
+                    >
+                      {renderStatus(item.status)}
+                    </Text>
+                  )}
+                </View>
               </View>
-            </View>
-          );
-        }}
-        onContentSizeChange={() =>
-          flatListRef.current.scrollToEnd({ animated: true })
-        }
-        onLayout={() =>
-          flatListRef.current.scrollToEnd({ animated: true })
-        }
-      />
+            );
+          }}
+          onContentSizeChange={() =>
+            flatListRef.current.scrollToEnd({ animated: true })
+          }
+          onLayout={() =>
+            flatListRef.current.scrollToEnd({ animated: true })
+          }
+        />
+      </ImageBackground>
 
       <View style={styles.inputArea}>
         <TextInput
@@ -187,18 +203,30 @@ export default function App() {
 }
 
 const styles = StyleSheet.create({
-  loginContainer: {
+  // LOGIN
+  loginFundo: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#f0f4f8",
-    padding: 20,
+  },
+  loginContainer: {
+    backgroundColor: "rgba(255,255,255,0.9)",
+    padding: 30,
+    borderRadius: 20,
+    alignItems: "center",
+    width: "85%",
+  },
+  logo: {
+    width: 120,
+    height: 120,
+    marginBottom: 20,
   },
   titulo: {
-    fontSize: 28,
+    fontSize: 26,
     fontWeight: "bold",
     marginBottom: 10,
-    color: "#333",
+    color: "#2d6cdf",
+    textAlign: "center",
   },
   subtitulo: {
     fontSize: 16,
@@ -206,22 +234,31 @@ const styles = StyleSheet.create({
     color: "#555",
     fontWeight: "bold",
   },
+  input: {
+    width: "100%",
+    borderColor: "#4a90e2",
+    borderRadius: 10,
+    borderWidth: 2,
+    padding: 12,
+    backgroundColor: "#fff",
+    marginBottom: 15,
+  },
   botaoEntrar: {
     backgroundColor: "#4a90e2",
     paddingVertical: 12,
-    paddingHorizontal: 30,
+    paddingHorizontal: 40,
     borderRadius: 25,
-    marginTop: 10,
   },
   botaoTexto: {
     color: "#fff",
     fontSize: 16,
     fontWeight: "bold",
   },
+
+  // CHAT
   container: {
     flex: 1,
     backgroundColor: "#e6ebf2",
-    padding: 10,
     paddingTop: 40,
   },
   header: {
@@ -296,13 +333,5 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     justifyContent: "center",
     alignItems: "center",
-  },
-  input: {
-    width: 200,
-    borderColor: "#000",
-    borderRadius: 10,
-    borderWidth: 3,
-    padding: 8,
-    backgroundColor: "#fff",
   },
 });
